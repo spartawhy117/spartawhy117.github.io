@@ -195,9 +195,9 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
+          <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
             
             标签
           </a>
@@ -371,52 +371,21 @@
       
         
           
-            <p>[TOC]</p>
-<h1 id="Effective-Modern-C-第一章-类型推导"><a href="#Effective-Modern-C-第一章-类型推导" class="headerlink" title="Effective Modern C++ 第一章 类型推导"></a>Effective Modern C++ 第一章 类型推导</h1><h2 id="条款1-理解模板型别推导"><a href="#条款1-理解模板型别推导" class="headerlink" title="条款1 理解模板型别推导"></a>条款1 理解模板型别推导</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(ParamType param)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T param)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">f</span><span class="params">(expr)</span></span>;</span><br></pre></td></tr></table></figure>
+          条款1 理解模板型别推导123456template&lt;typename T&gt;void f(ParamType param);void f(T&amp;&amp; param)void f(T param)f(expr);
 
-<p>编译器推导函数参数时会推导两个型别：</p>
-<ol>
-<li><p>T型别</p>
-<ul>
-<li>不仅依赖exr的型别，也以来ParamType的型别</li>
-</ul>
-</li>
-<li><p>ParamType型别</p>
-<ul>
-<li>包含一些修饰词const或引用符号限定</li>
-</ul>
-</li>
-</ol>
-<p><strong>情形1：ParamType是个指针或引用，但不是万能引用</strong></p>
-<p>引用型别的实参会被当成非引用型别来处理</p>
-<p><strong>情形2：ParamType是个万能引用</strong></p>
-<p>万能引用的声明型别写作T&amp;&amp;</p>
-<p>expr为左值，T和P都被推导为左值引用</p>
-<p>expr为右值，引用情形1</p>
-<p><strong>情形3：ParamType 既非指针也非引用</strong></p>
-<p>按值传递，引用，const，volatile 都会被忽略</p>
-<p><strong>数组或者函数型别的实参会被退化成对应的指针，当模板是用引用传递实参后，T的类型会被推导成实际的数组型别。当数组被用作初始化引用时，不会退化为相应的指针</strong></p>
-<h2 id="条款2-理解auto型别推导"><a href="#条款2-理解auto型别推导" class="headerlink" title="条款2 理解auto型别推导"></a>条款2 理解auto型别推导</h2><p>auto类型推导就是模板推导，除去一种情形以外</p>
-<p>当变量用auto声明时，auto扮演模板中T这个角色；变量的型别饰词扮演ParamType角色</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; rx = x; <span class="comment">//型别饰词为const auto&amp;</span></span><br></pre></td></tr></table></figure>
+编译器推导函数参数时会推导两个型别：
 
-<p>auto推导大括号起始的初始化表达式代表一个std::initializer_list</p>
-<p>函数返回值或lambda的形参中使用auto时使用模板类型推导而不是auto型别推导（即不能返回和传入大括号的初始化表达式）</p>
-<h2 id="条款3-理解decltype"><a href="#条款3-理解decltype" class="headerlink" title="条款3 理解decltype"></a>条款3 理解decltype</h2><ol>
-<li><p>绝大多数情况下，decltype会得出表达式的型别而不做任何修改</p>
-</li>
-<li><p>对于型别为T的左值表达式，除非仅有一个名字，decltype总是返回型别T&amp;。（表达式(x)为一个左值，decltype得出T&amp;）</p>
-</li>
-<li><p>c++14支持decltype(auto)，它会从初始化表达式出发来进行推导型别，但是它的型别推导使用的是decltype规则 </p>
-</li>
-</ol>
-<p><strong>容器的operator[]的返回类型取决于该容器本身</strong></p>
-<h2 id="条款4-掌握查看型别推导结果的方法"><a href="#条款4-掌握查看型别推导结果的方法" class="headerlink" title="条款4 掌握查看型别推导结果的方法"></a>条款4 掌握查看型别推导结果的方法</h2><ul>
-<li>利用IDE编辑器，编译器错误消息和Boost.TypeIndex库常常能够查到推导而得的型别</li>
-<li>有些工具不准确，所以理解c++型别推导规则是必要的。</li>
-</ul>
+T型别
 
-          
+不仅依赖exr
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/21/Effective-Modern-C-第一章-类型推导/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -519,10 +488,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
